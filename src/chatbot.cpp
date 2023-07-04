@@ -44,7 +44,58 @@ ChatBot::~ChatBot()
 
 //// STUDENT CODE
 ////
+ChatBot::ChatBot(const ChatBot& source)
+{
+    std::cout << "Copying content of instance " << &source << " to instance " << this << std::endl;
+    _image = new wxBitmap();
+    *_image = *(source._image);
+    _currentNode = source._currentNode;
+    _rootNode = source._rootNode;
+    _chatLogic = source._chatLogic;
+}
+ChatBot& ChatBot::operator=(const ChatBot& source)
+{
+    std::cout << "ASSIGNING content of instance " << &source << " to instance " << this << std::endl;
+    std::cout << "Copying source using Copy Assignment Constructor \n";
+    if(this == &source)
+    {
+        return *this;
+    }
+    delete _image; // we dont need to check because even if it was assign nullptr it wont have effect of delete
+    _image = new wxBitmap();
+    *_image = *(source._image);
+    _currentNode = source._currentNode;
+    _rootNode = source._rootNode;
+    _chatLogic = source._chatLogic;   
+    return *this;
+}
+ChatBot::ChatBot( ChatBot &&source)
+{
+    std::cout << "MOVING (c’tor) instance " << &source << " to instance " << this << std::endl;
+    _image = new wxBitmap();
+    *_image = *(source._image);
+    source._image = nullptr;
+    _currentNode = source._currentNode;
+    _rootNode = source._rootNode;
+    _chatLogic = source._chatLogic;   
+}
+ChatBot& ChatBot::operator=(ChatBot &&source)
+{
+    std::cout << "MOVING (assign) instance " << &source << " to instance " << this << std::endl;
+    if(this == &source)
+    {
+        return *this;
+    }
+    delete _image;
+    _image = new wxBitmap();
+    *_image = *(source._image);
+    source._image = nullptr;
+    _currentNode = source._currentNode;
+    _rootNode = source._rootNode;
+    _chatLogic = source._chatLogic; 
 
+    return *this;
+}
 ////
 //// EOF STUDENT CODE
 
